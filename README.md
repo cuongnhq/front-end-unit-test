@@ -1,22 +1,31 @@
-## Tiêu chí để đánh giá
+# ✅ Test Checklist for `OrderService`
 
-- [x] Danh sách các checklist (test cases) trước khi viết unit test.
-- [x] Độ bao phủ (Code Coverage).
-- [x] Coverage đầy đủ line, condition, branch.
-- [x] Tuân thủ best pratice, clean code.
-- [x] Có khả năng verify kết quả unit test.
+## 🛒 Validate Order Input
+- [x] ❌ Throw error if `order.items` is empty or undefined
+- [x] ❌ Throw error if any item has `price <= 0` or `quantity <= 0`
+- [x] ❌ Throw error if `totalPrice` calculated is `<= 0`
 
-### Lưu ý khi làm bài
+## 🎟 Apply Coupon
+- [x] ✅ Fetch coupon if `order.couponId` exists
+- [x] ❌ Throw error if coupon is invalid (not returned)
+- [x] ✅ Subtract `coupon.discount` from `totalPrice`
+- [x] ✅ Ensure `totalPrice` is not negative (set to 0 if < 0)
 
-- Viết unit test cho các hàm trong folder services.
-- Có Sử dụng mock, stub và spy
-- Fix và Refactor code để đạt chuẩn theo nguyên tắc SOLID là một lợi thế.
+## 💳 Final Order Submission
+- [x] ✅ Call `buildPaymentMethod(totalPrice)` from `PaymentService`
+- [x] ✅ Submit final order to API
+- [x] ✅ Call `payViaLink` from `PaymentService` with created order
 
-## Cách nộp bài
+---
 
-1. Sử dụng gist hoặc repo public để submit kết quả
-2. Kết quả submit sẽ gồm các file về unit testing sau khi làm là đủ (có thể submit luôn source code nếu muốn - optional)
-3. Evidence kết quả coverage cũng được submit vào gist hoặc repo public trên.
-  - Nếu dùng gist: Thì capture screen đủ số hình để hiển thị kết quả coverage.
-  - Nếu dùng repo: Thì có thể push cả file report coverage lên.
-4. Sau khi làm xong, lấy link của gist hoặc repo public thì submit link vào Google Form.
+# ✅ Test Checklist for `PaymentService`
+
+## 💰 Method: `buildPaymentMethod(totalPrice)`
+- [x] ✅ Return all methods if `totalPrice <= 300000`
+- [x] ✅ Exclude AUPAY if `totalPrice > 300000`
+- [x] ✅ Exclude PAYPAY if `totalPrice > 500000`
+- [x] ✅ Return only CREDIT if `totalPrice > 600000`
+
+## 🔗 Method: `payViaLink(order)`
+- [x] ✅ Call `window.open` with correct `orderId` in the URL
+- [x] ✅ Open in new tab (`_blank`)
